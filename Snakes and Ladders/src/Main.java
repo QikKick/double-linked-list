@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    static LinkedList<Class> gameMap = new LinkedList<>();
+    static LinkedList<gameSetup> gameMap = new LinkedList<>();
 
 
     public static void main(String[] args) throws IOException {
@@ -89,7 +89,7 @@ public class Main {
                         if(i == SS[x])
                         {
 
-                            gameMap.add();
+                            gameMap.add(i,LS[j]);
                         }
                         else if (i == sac)
                         {
