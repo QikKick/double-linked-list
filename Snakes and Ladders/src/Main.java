@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+
+
 public class Main {
+
+    static LinkedList<Class> gameMap = new LinkedList<>();
+
+
     public static void main(String[] args) throws IOException {
-
-
 
 
         // 1.File Input
@@ -63,11 +67,12 @@ public class Main {
         }
 
         //Game map Setup
-        LinkedList<Class> gameMap = new LinkedList<>();
-
+        gameSetup mapa = new gameSetup();
         gameMapSetup(gameMap, mapLength,ladderArrayCount, ladderStart, ladderEnd, snakeArrayCount, snakeStart, snakeEnd);
 
         System.out.println();
+
+
 
     }
 
@@ -84,11 +89,11 @@ public class Main {
                         if(i == SS[x])
                         {
 
-                            gameMap.add(new gameSetup(i, LE[j],SE[x]));
+                            gameMap.add();
                         }
                         else if (i == sac)
                         {
-                            gameMap.add(new gameSetup(i, LE[j], -1));
+
                         }
                     }
                 }
