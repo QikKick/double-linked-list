@@ -26,6 +26,20 @@ public class gameSetup {
             return posi;
     }
 
+    public int checkElements(int pos)
+    {
+        if(snake != -1)
+        {
+            return snake;
+        }
+        else if (ladder != -1)
+        {
+            return ladder;
+        }
+        else
+            return pos;
+    }
+
 
     public void setPosition(int position) {
         this.position = position;

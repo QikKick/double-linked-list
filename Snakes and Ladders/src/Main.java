@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 
 
+
+
 public class Main {
 
     static LinkedList<gameSetup> gameMap = new LinkedList<>();
@@ -32,7 +34,7 @@ public class Main {
         int[] snakeStart = new int[100];
         int[] snakeEnd = new int[100];
         boolean stop = false;
-        while(stop == false)
+        while(!stop)
         {
             snakeArrayCount++;
             snakeStarttemp = sc.nextLine();
@@ -43,7 +45,7 @@ public class Main {
             else
             snakeStart[snakeArrayCount] = Integer.parseInt(snakeStarttemp);
 
-            if(stop == false) {
+            if(!stop) {
                 snakeEndTemp = sc.nextLine();
                 if (snakeEndTemp == "ladder")
                     break;
@@ -74,10 +76,12 @@ public class Main {
         //Game map Setup
         gameSetup mapa = new gameSetup();
         gameMapSetup(gameMap, mapLength,ladderArrayCount, ladderStart, ladderEnd, snakeArrayCount, snakeStart, snakeEnd);
+
+        // GAME STARTS OMG FINALLY JAU NEŽINAU KOKIĄ VALADNĄ RAŠAU TAI PRAŠAU PADĖKIT MANO SĄMANOĖJ, EINU DARYT JAU 5 KAVĄ, AR GALITE INDUS MAN IŠPLAUT ?????
         mainMenu(playercount,mapLength);
 
 
-        // GAME STARTS OMG FINALLY JAU NEŽINAU KOKIĄ VALADNĄ RAŠAU TAI PRAŠAU PADĖKIT MANO SĄMANOĖJ, EINU DARYT JAU 5 KAVĄ, AR GALITE INDUS MAN IŠPLAUT ?????
+
 
 
     }
@@ -95,7 +99,7 @@ public class Main {
                     gameMap.add(new gameSetup(i,-1, LS[j]));
                 }
             }
-            if(ladder == false)
+            if(!ladder)
             {
                 for(int j = 0; j<sac;j++)
                 {
@@ -106,7 +110,7 @@ public class Main {
                         gameMap.add(new gameSetup(i, SE[j],-1));
                     }
                 }
-                if(snake == false && ladder == false)
+                if(!snake && !ladder)
                 //System.out.println(i);
                 gameMap.add(new gameSetup(i, -1, -1 ));
             }
@@ -158,18 +162,31 @@ public static void mainMenu(int playerCount,int mapLength)
     playerCount = menuscan.nextInt();
     menuscan.nextLine();
 
+    boolean Check= false;
+    System.out.println("Do you want to change any game settings? ");
+    Check = menuscan.nextBoolean();
+        if(Check)
+            gameSettings(mapLength);
+
+
     System.out.println("Awesome, Are you ready? (Press enter)");
     menuscan.nextLine();
     menuscan.close();
 
+    //2.1 Print game
     printGame(mapLength);
-    playersTraverse(playerCount);
+    //3. Main game, players play
+    playersTraverse(playerCount,mapLength);
 }
 
-public static void playersTraverse(int playerCount)
+public static void playersTraverse(int playerCount, int mapLength)
 {
-    //System.out.println(playerCount);
+
+
+    int diceRollAmount;
     int[] player = new int[playerCount];
+// --------------------------
+
 
         for(int i = 0; i<playerCount; i++)
             player[i] = 0;
@@ -177,10 +194,40 @@ public static void playersTraverse(int playerCount)
     System.out.println("Player Positions: ");
 
         for(int i = 0; i<playerCount;i++)
-            System.out.println(i + "Player is at position " + (player[1]+1));
-
+            System.out.println((i+1) + " Player is at position " + (player[1]+1));
     Scanner sc = new Scanner(System.in);
 
+    Integer stopGame=0;
+    while (player[0] != (mapLength-1) || player[1] != (mapLength-1) || player[2] != (mapLength-1))
+    {
+        for(int i = 0;i< playerCount; i++)
+        {
+            System.out.println(i + " player it's your turn!   (if you want to stop press 1)");
+
+            boolean hasNextInt = false;
+            while(!hasNextInt){
+                hasNextInt = sc.hasNextInt();
+                stopGame = sc.nextInt();
+
+                if(stopGame.equals(1))
+                {
+                    System.exit(0);
+                }
+
+                sc.close();
+                diceRollAmount= rollDice();
+                System.out.println("It's " + diceRollAmount);
+                player[i] += diceRollAmount;
+                player[i] = gameMap.get(player[i]).checkElements(player[i]);
+                System.out.println("Player " + (i+1) + " is at the " + (player[i]+1) + " pos.");
+
+                if(player[i] >= mapLength-1)
+                    winGame(player[i]);
+            }
+
+        }
+        System.out.println();
+    }
 }
 
 public static int rollDice()
@@ -190,6 +237,69 @@ public static int rollDice()
     n = r.nextInt(7);
     return (n == 0 ? 1 : n);
 }
+public static void winGame(int Winner)
+{
+
+}
 
 
+public static int gameSettings(int mapLength)
+{
+    int setup = 0;
+    while (setup != 6)
+    {
+        setup = 0;
+        Scanner gameSettingsScanner = new Scanner(System.in);
+        System.out.println("What Do you want to change?");
+        System.out.println(" 1 - Add Snake");
+        System.out.println(" 2 - Add Ladder");
+        System.out.println(" 3 - Add Position");
+        System.out.println(" 4 - Remove Snake");
+        System.out.println(" 5 - Remove Ladder");
+        System.out.println(" 6 - Leave Settings and start game");
+        System.out.println("\t Map:");
+        printGame(mapLength);
+        System.out.println();
+
+        setup = gameSettingsScanner.nextInt();
+
+        if (setup == 1) {
+            System.out.println(" What Position? From 0 to " + (mapLength - 1));
+            setup = gameSettingsScanner.nextInt();
+            int snakee = -1;
+            System.out.println("Where should it go? ");
+            snakee = gameSettingsScanner.nextInt();
+            if (snakee >= setup) {
+                System.out.println("Failed snake end position is higher than start");
+            } else
+                Main.gameMap.get(setup).setSnake(snakee);
+            snakee = 0;
+        }
+
+        if(setup == 2){
+            System.out.println(" What Position? From 0 to " + (mapLength - 1));
+            setup = gameSettingsScanner.nextInt();
+            int ladderr = -1;
+            System.out.println("Where should it go? ");
+            ladderr = gameSettingsScanner.nextInt();
+            if(ladderr <= setup )
+            {
+                System.out.println("Failed, ladder end position is lower than start");
+            }
+            else
+                Main.gameMap.get(setup).setLadder(ladderr);
+            ladderr = 0;
+        }
+
+        if(setup == 3){
+            gameMap.add(new gameSetup(mapLength,-1,-1));
+            mapLength+=1;
+        }
+
+        if(setup == 4){
+
+        }
+    }
+    return mapLength;
+}
 }
