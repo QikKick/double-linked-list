@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 public class Main {
 
+
+    static Scanner menuscan = new Scanner(System.in);
     static LinkedList<gameSetup> gameMap = new LinkedList<>();
 
 
@@ -71,8 +73,8 @@ public class Main {
 
         }
 
-        for(int i = 0; i< ladderArrayCount; i++)
-            System.out.println(ladderStart);
+//        for(int i = 0; i< ladderArrayCount; i++)
+//            System.out.println(ladderStart);
         //Game map Setup
         gameSetup mapa = new gameSetup();
         gameMapSetup(gameMap, mapLength,ladderArrayCount, ladderStart, ladderEnd, snakeArrayCount, snakeStart, snakeEnd);
@@ -142,7 +144,7 @@ public static void printGame(int mapLength)
 public static void mainMenu(int playerCount,int mapLength)
 {
 
-    Scanner menuscan = new Scanner(System.in);
+
     System.out.println("Hi!");
     System.out.println("This is the Snakes and Ladders game!");
     boolean hasNextInt = false;
@@ -171,7 +173,7 @@ public static void mainMenu(int playerCount,int mapLength)
 
     System.out.println("Awesome, Are you ready? (Press enter)");
     menuscan.nextLine();
-    menuscan.close();
+
 
     //2.1 Print game
     printGame(mapLength);
@@ -194,41 +196,41 @@ public static void playersTraverse(int playerCount, int mapLength)
     System.out.println("Player Positions: ");
 
         for(int i = 0; i<playerCount;i++)
-            System.out.println((i+1) + " Player is at position " + (player[1]+1));
-    Scanner sc = new Scanner(System.in);
+            System.out.println((i+1) + " Player is at position " + player[1]);
+
 
     Integer stopGame=0;
     while (player[0] != (mapLength-1) || player[1] != (mapLength-1) || player[2] != (mapLength-1))
     {
         for(int i = 0;i< playerCount; i++)
         {
-            System.out.println(i + " player it's your turn!   (if you want to stop press 1)");
+            System.out.println((i+1) + " player it's your turn!  Click 0 (if you want to stop press 1)");
 
             boolean hasNextInt = false;
             while(!hasNextInt){
-                hasNextInt = sc.hasNextInt();
-                stopGame = sc.nextInt();
+                hasNextInt = menuscan.hasNextInt();
+                stopGame = menuscan.nextInt();
 
                 if(stopGame.equals(1))
                 {
-                    System.exit(0);
+                    mainMenu(playerCount,mapLength);
                 }
-
-                sc.close();
                 diceRollAmount= rollDice();
                 System.out.println("It's " + diceRollAmount);
                 player[i] += diceRollAmount;
+            if(player[i] >= mapLength-1)
+                winGame(i);
                 player[i] = gameMap.get(player[i]).checkElements(player[i]);
-                System.out.println("Player " + (i+1) + " is at the " + (player[i]+1) + " pos.");
+                printGame(mapLength);
+                System.out.println("\nPlayer " + (i+1) + " is at the " + player[i] + " pos.");
 
-                if(player[i] >= mapLength-1)
-                    winGame(player[i]);
-            }
+
+            //}
 
         }
         System.out.println();
     }
-}
+}}
 
 public static int rollDice()
 {
@@ -239,7 +241,8 @@ public static int rollDice()
 }
 public static void winGame(int Winner)
 {
-
+    System.out.println((Winner+1) + " player won!");
+    System.exit(0);
 }
 
 
@@ -257,6 +260,7 @@ public static int gameSettings(int mapLength)
         System.out.println(" 4 - Remove Snake");
         System.out.println(" 5 - Remove Ladder");
         System.out.println(" 6 - Leave Settings and start game");
+        System.out.println(" 7 - Clear Map");
         System.out.println("\t Map:");
         printGame(mapLength);
         System.out.println();
@@ -297,7 +301,18 @@ public static int gameSettings(int mapLength)
         }
 
         if(setup == 4){
+            System.out.println(" What Position? From 0 to " + (mapLength - 1));
+            setup = gameSettingsScanner.nextInt();
+            Main.gameMap.get(setup).setSnake(-1);
+        }
 
+        if(setup == 5){
+            System.out.println(" What Position? From 0 to " + (mapLength - 1));
+            setup = gameSettingsScanner.nextInt();
+            Main.gameMap.get(setup).setLadder(-1);
+        }
+        if(setup == 7 ){
+            Main.gameMap.clear();
         }
     }
     return mapLength;
