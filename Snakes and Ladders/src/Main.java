@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -12,6 +13,8 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
+        int playercount = 0;
+
 
 
         // 1.File Input
@@ -66,50 +69,127 @@ public class Main {
 
         }
 
+        for(int i = 0; i< ladderArrayCount; i++)
+            System.out.println(ladderStart);
         //Game map Setup
         gameSetup mapa = new gameSetup();
         gameMapSetup(gameMap, mapLength,ladderArrayCount, ladderStart, ladderEnd, snakeArrayCount, snakeStart, snakeEnd);
+        mainMenu(playercount,mapLength);
 
-        System.out.println();
 
+        // GAME STARTS OMG FINALLY JAU NEŽINAU KOKIĄ VALADNĄ RAŠAU TAI PRAŠAU PADĖKIT MANO SĄMANOĖJ, EINU DARYT JAU 5 KAVĄ, AR GALITE INDUS MAN IŠPLAUT ?????
 
 
     }
 
 
     private static void gameMapSetup(LinkedList gameMap, int mapLength, int lac, int[] LS, int[] LE, int sac, int[] SS, int[] SE){
-        boolean ladder = false;
-        for(int i =0; i<mapLength; i++) {
+        boolean ladder = false, snake = false;
+        for(Integer i =0; i<mapLength; i++) {
+
             for(int j = 0; j<lac; j++)
             {
+
                 if(i == LS[j]) {
                     ladder = true;
-                    for(int x=0; x<sac+1; x++)
-                    {
-                        if(i == SS[x])
-                        {
-
-                            gameMap.add(i,LS[j]);
-                        }
-                        else if (i == sac)
-                        {
-
-                        }
-                    }
+                    gameMap.add(new gameSetup(i,-1, LS[j]));
                 }
             }
             if(ladder == false)
             {
                 for(int j = 0; j<sac;j++)
                 {
-                    if( i == SS[j])
+                    //System.out.println(SS[0]);
+                    if( i.equals(SS[j]))
                     {
-                        gameMap.add(new gameSetup(i,-1,SE[j]));
+                        snake = true;
+                        gameMap.add(new gameSetup(i, SE[j],-1));
                     }
                 }
+                if(snake == false && ladder == false)
+                //System.out.println(i);
+                gameMap.add(new gameSetup(i, -1, -1 ));
             }
 
-
+        ladder = false;
+            snake = false;
     }
 
-}}
+}
+
+public static void printGame(int mapLength)
+{
+    int lineCount = 1;
+    //System.out.println(gameMap);
+    for(int i = 0; i< mapLength; i++) {
+
+        if(lineCount !=10) {
+            System.out.print(gameMap.get(i).getPosition() + "\t");
+            lineCount+= 1;
+        }
+        else if(lineCount == 10) {
+            System.out.println(gameMap.get(i).getPosition());
+            lineCount = 1;
+        }
+
+    }
+}
+
+public static void mainMenu(int playerCount,int mapLength)
+{
+
+    Scanner menuscan = new Scanner(System.in);
+    System.out.println("Hi!");
+    System.out.println("This is the Snakes and Ladders game!");
+    boolean hasNextInt = false;
+    while(!hasNextInt) {
+        System.out.println("Will you want to play today? ^^ (click 1 )");
+        hasNextInt = menuscan.hasNextInt();
+        Integer play = menuscan.nextInt();
+
+        if(!play.equals(1))
+        {
+            System.out.println("sad :(");
+            System.exit(0);
+        }
+    }
+
+    System.out.println("Please input the player count (1 - 3 )");
+    playerCount = menuscan.nextInt();
+    menuscan.nextLine();
+
+    System.out.println("Awesome, Are you ready? (Press enter)");
+    menuscan.nextLine();
+    menuscan.close();
+
+    printGame(mapLength);
+    playersTraverse(playerCount);
+}
+
+public static void playersTraverse(int playerCount)
+{
+    //System.out.println(playerCount);
+    int[] player = new int[playerCount];
+
+        for(int i = 0; i<playerCount; i++)
+            player[i] = 0;
+
+    System.out.println("Player Positions: ");
+
+        for(int i = 0; i<playerCount;i++)
+            System.out.println(i + "Player is at position " + (player[1]+1));
+
+    Scanner sc = new Scanner(System.in);
+
+}
+
+public static int rollDice()
+{
+    int n = 0;
+    Random r = new Random();
+    n = r.nextInt(7);
+    return (n == 0 ? 1 : n);
+}
+
+
+}
