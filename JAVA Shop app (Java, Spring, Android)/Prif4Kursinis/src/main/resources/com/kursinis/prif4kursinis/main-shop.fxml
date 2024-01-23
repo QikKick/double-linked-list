@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kursinis.prif4kursinis.fxControllers.MainShopController">
+    <children>
+        <TabPane fx:id="tabPane" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <tabs>
+                <Tab fx:id="primaryTab" onSelectionChanged="#loadTabValues" text="Products">
+
+
+
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <ListView fx:id="productList" layoutX="14.0" layoutY="14.0" prefHeight="347.0" prefWidth="236.0" AnchorPane.bottomAnchor="8.400000000000034" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="14.0" />
+                                <Button layoutX="281.0" layoutY="331.0" mnemonicParsing="false" onAction="#leaveComment" text="Leave a comment" />
+                                <Button layoutX="280.0" layoutY="224.0" mnemonicParsing="false" onAction="#addToCart" text="Add" />
+                                <ListView fx:id="orderListView" layoutX="261.0" layoutY="14.0" prefHeight="199.0" prefWidth="329.0" />
+                        <Button layoutX="415.0" layoutY="224.0" mnemonicParsing="false" onAction="#createOrder" text="Create order" />
+                        <Button layoutX="339.0" layoutY="224.0" mnemonicParsing="false" onAction="#removeFromCart" text="Remove" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="usersTab" onSelectionChanged="#loadTabValues" text="Users">
+
+
+
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <TableView fx:id="customerTable" layoutX="14.0" layoutY="14.0" prefHeight="178.0" prefWidth="578.0">
+                            <columns>
+                                <TableColumn fx:id="idTableCol" prefWidth="75.0" text="ID" />
+                                <TableColumn fx:id="loginTableCol" prefWidth="75.0" text="Login" />
+                                <TableColumn fx:id="passwordTableCol" prefWidth="75.0" text="Password" />
+                                <TableColumn fx:id="addressTableCol" prefWidth="75.0" text="Address" />
+                                <TableColumn fx:id="dummyCol" prefWidth="75.0" text="Action" />
+                            </columns>
+                        </TableView>
+                        <TableView fx:id="managerTable" layoutX="14.0" layoutY="199.0" prefHeight="158.0" prefWidth="578.0">
+                            <columns>
+                                <TableColumn prefWidth="75.0" text="C1" />
+                                <TableColumn prefWidth="75.0" text="C2" />
+                            </columns>
+                        </TableView>
+                    </AnchorPane>
+                </Tab>
+            <Tab fx:id="warehouseTab" onSelectionChanged="#loadTabValues" text="Warehouse">
+
+
+
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="warehouseList" layoutX="20.0" layoutY="14.0" onMouseClicked="#loadWarehouseData" prefHeight="344.0" prefWidth="210.0" />
+                        <Button layoutX="248.0" layoutY="332.0" mnemonicParsing="false" onAction="#addNewWarehouse" prefHeight="26.0" prefWidth="86.0" text="Add new" />
+                        <Button layoutX="351.0" layoutY="332.0" mnemonicParsing="false" onAction="#updateWarehouse" prefHeight="26.0" prefWidth="83.0" text="Update" />
+                        <Button layoutX="452.0" layoutY="332.0" mnemonicParsing="false" onAction="#removeWarehouse" prefHeight="26.0" prefWidth="97.0" text="Remove" />
+                        <TextField fx:id="addressWarehouseField" layoutX="260.0" layoutY="62.0" promptText="Address" />
+                        <TextField fx:id="titleWarehouseField" layoutX="260.0" layoutY="27.0" promptText="Title" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+                <Tab fx:id="ordersTab" onSelectionChanged="#loadTabValues" text="Orders">
+
+
+
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <TableView fx:id="orderTable" layoutX="8.0" layoutY="14.0" prefHeight="224.0" prefWidth="366.0">
+                            <columns>
+                                <TableColumn text="Order ID" />
+                                <TableColumn text="Product" />
+                                <!-- Add other columns as needed -->
+                            </columns>
+                        </TableView>
+                  <TextField fx:id="CustomerIdField" layoutX="389.0" layoutY="41.0" />
+                  <TextField fx:id="OrderValueField" layoutX="389.0" layoutY="85.0" />
+                  <TextField fx:id="OrderCompletedField" layoutX="396.0" layoutY="126.0" />
+                  <TextArea fx:id="messageInputField" layoutX="393.0" layoutY="166.0" prefHeight="145.0" prefWidth="154.0" />
+                  <Button layoutX="164.0" layoutY="251.0" mnemonicParsing="false" onAction="#updateCart" text="Button" />
+                  <Button layoutX="232.0" layoutY="251.0" mnemonicParsing="false" onAction="#deleteCart" text="Button" />
+                  <Button layoutX="205.0" layoutY="286.0" mnemonicParsing="false" onAction="#sendMessage" text="Button" />
+                        <!-- Other UI elements related to the "Orders" tab -->
+                    </AnchorPane>
+                </Tab>
+
+
+
+                <Tab fx:id="productsTab" onSelectionChanged="#loadTabValues" text="Product">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+
+                        <VBox fx:id="productFields" layoutX="20" layoutY="7" prefWidth="240" spacing="5.0">
+                        <ListView fx:id="productListManager" layoutX="20.0" layoutY="7.0" prefHeight="138.0" prefWidth="244.0" />
+                        <TextField fx:id="productTitleField" layoutX="20.0" layoutY="145.0" prefHeight="26.0" prefWidth="242.0" promptText="Title" />
+                        <TextField fx:id="productAuthorField" layoutX="20.0" layoutY="172.0" prefHeight="26.0" prefWidth="240.0" promptText="Author" />
+                        <DatePicker fx:id="productReleaseDateField" layoutX="20.0" layoutY="199.0" prefHeight="26.0" prefWidth="240.0" promptText="Release Date" />
+                        <TextField fx:id="productManufacturerField" layoutX="20.0" layoutY="226.0" prefHeight="26.0" prefWidth="240.0" promptText="Manufacturer" />
+                        <TextField fx:id="productRecommendedAgeField" layoutX="20.0" layoutY="253.0" prefHeight="26.0" prefWidth="240.0" promptText="Recommended Age" />
+                        <TextField fx:id="productPriceField" layoutX="20.0" layoutY="280.0" prefHeight="26.0" prefWidth="240.0" promptText="Price" />
+                        <ComboBox fx:id="warehouseComboBox" layoutX="20.0" layoutY="332.0" prefHeight="26.0" prefWidth="240.0" promptText="Warehouse" />
+                        </VBox>
+
+                        <Button layoutX="279.0" layoutY="333.0" mnemonicParsing="false" onAction="#addNewProduct" prefHeight="26.0" prefWidth="73.0" text="Add new" />
+                        <Button layoutX="369.0" layoutY="333.0" mnemonicParsing="false" onAction="#updateProduct" prefHeight="26.0" prefWidth="114.0" text="Update" />
+                        <Button layoutX="509.0" layoutY="333.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="26.0" prefWidth="58.0" text="Delete" />
+                        <ComboBox fx:id="productGenreComboBox" layoutX="279.0" layoutY="14.0" onAction="#enableProductFields" prefHeight="26.0" prefWidth="306.0" promptText="Genre" />
+                        <TextField fx:id="productTopicField" layoutX="278.0" layoutY="40.0" prefHeight="26.0" prefWidth="308.0" promptText="Topic" />
+                        <TextArea fx:id="productDescriptionField" layoutX="280.0" layoutY="66.0" prefHeight="70.0" prefWidth="305.0" promptText="Description" />
+
+                        <VBox fx:id="fictionFields" layoutX="280" layoutY="146" spacing="5.0">
+                            <TextField fx:id="productFictionTypeField" layoutX="280.0" layoutY="146.0" prefHeight="25.0" prefWidth="128.0" promptText="Type" />
+                            <TextField fx:id="productFictionSettingField" layoutX="280.0" layoutY="172.0" prefHeight="25.0" prefWidth="128.0" promptText="Setting" />
+                            <CheckBox fx:id="productFictionClassicCheckBox" layoutX="280.0" layoutY="200.0" mnemonicParsing="false" text="Classic" />
+                        </VBox>
+
+                        <VBox fx:id="eduFields" layoutX="280" layoutY="146" spacing="5.0">
+                        <TextField fx:id="productEduSubjectField" layoutX="418.0" layoutY="146.0" prefHeight="25.0" prefWidth="128.0" promptText="Subject" />
+                        <TextField fx:id="productEduEditionField" layoutX="418.0" layoutY="172.0" prefHeight="25.0" prefWidth="128.0" promptText="Edition" />
+                        <ComboBox fx:id="productEduLevelComboBox" layoutX="418.0" layoutY="200.0" prefHeight="25.0" prefWidth="128.0" promptText="Level">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Elementary" />
+                                    <String fx:value="Middle School" />
+                                    <String fx:value="High School" />
+                                    <String fx:value="College" />
+                                    <String fx:value="Graduate" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        </VBox>
+
+                        <VBox fx:id="childFields" layoutX="280" layoutY="146" spacing="5.0">
+                        <TextField fx:id="productChildFeatureField" layoutX="281.0" layoutY="240.0" prefHeight="25.0" prefWidth="128.0" promptText="Interactive Features" />
+                        <TextField fx:id="productChildIllustratorField" layoutX="281.0" layoutY="268.0" prefHeight="25.0" prefWidth="128.0" promptText="Illustrator" />
+                        <ComboBox fx:id="productChildAgeRangeComboBox" layoutX="281.0" layoutY="294.0" prefHeight="25.0" prefWidth="128.0" promptText="Features">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="1-3" />
+                                    <String fx:value="3-6" />
+                                    <String fx:value="6-9" />
+                                    <String fx:value="9-12" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        </VBox>
+                    </AnchorPane>
+                </Tab>
+                <Tab fx:id="commentTab" onSelectionChanged="#loadTabValues" text="Comments">
+
+
+
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <TextArea fx:id="commentBodyField" layoutX="44.0" layoutY="67.0" prefHeight="61.0" prefWidth="137.0" />
+                        <ListView fx:id="commentListField" layoutX="215.0" layoutY="24.0" onMouseClicked="#loadCommentInfo" prefHeight="233.0" prefWidth="368.0" />
+                        <Button layoutX="44.0" layoutY="172.0" mnemonicParsing="false" onAction="#createComment" text="Add" />
+                        <Button layoutX="44.0" layoutY="323.0" mnemonicParsing="false" onAction="#updateComment" text="Update" />
+                        <Button layoutX="103.0" layoutY="323.0" mnemonicParsing="false" onAction="#deleteComment" text="Delete" />
+                  <ComboBox fx:id="productComboBox" layoutX="44.0" layoutY="30.0" prefWidth="150.0" />
+                        <ComboBox fx:id="commentRatingField" layoutX="40.0" layoutY="141.0" visibleRowCount="6" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                            <!-- Rating values will be populated in the controller -->
+                        </ComboBox>
+                    </AnchorPane>
+                </Tab>
+                <Tab fx:id="messageTab" onSelectionChanged="#loadTabValues" text="Messages">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <TableView fx:id="messageTable" prefHeight="400.0" prefWidth="326.0">
+                                <columns>
+                                    <TableColumn fx:id="messageidColumn" prefWidth="33.0" text="ID" />
+                                    <TableColumn fx:id="messageCreatedColumn" prefWidth="81.0" text="Date Created" />
+                                    <TableColumn fx:id="messageContenColumn" prefWidth="120.0" text="Content" />
+                                    <TableColumn fx:id="messageCarIdColumn" minWidth="0.0" prefWidth="50.0" text="Cart ID" />
+
+                                </columns>
+                            </TableView>
+                            <TextArea fx:id="messageResponseField" layoutX="340.0" layoutY="40.0" prefHeight="180.0" prefWidth="250.0" promptText="Enter message" />
+
+                            <Button layoutX="411.0" layoutY="322.0" onAction="#deleteMessage" text="Delete" textFill="WHITE" />
+                            <Button layoutX="501.0" layoutY="322.0" onAction="#messageResponse" text="Message" textFill="WHITE" />
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="statisticsTab" onSelectionChanged="#loadTabValues" text="Statistics">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <TableView fx:id="cartData">
+                                <columns>
+                                    <TableColumn fx:id="buyerColumn" text="ID" />
+                                    <TableColumn fx:id="dateColumn" text="Date Created" />
+                                    <TableColumn fx:id="userColumn" text="User ID" />
+
+                                </columns>
+                            </TableView>
+                            <TextField fx:id="userIdField" layoutX="409.0" layoutY="72.0" prefHeight="26.0" prefWidth="69.0" promptText="User ID" />
+                            <DatePicker fx:id="fromField" layoutX="330.0" layoutY="1.0" prefWidth="200.0" promptText="Start date" />
+                            <DatePicker fx:id="toField" layoutX="330.0" layoutY="36.0" prefWidth="200.0" promptText="End date" />
+
+                            <BarChart fx:id="cartValueByDayChart" layoutX="325.0" layoutY="100.0" prefHeight="216.0" prefWidth="265.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0">
+                                <xAxis>
+                                    <CategoryAxis startMargin="0.0" tickLabelFill="WHITE">
+                                        <style>
+                                            -fx-tick-label-fill: white;
+                                            -fx-axis-label-text-fill: white;
+                                        </style>
+                                    </CategoryAxis>
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis tickLabelFill="WHITE" upperBound="40.0">
+                                        <style>
+                                            -fx-tick-label-fill: white;
+                                            -fx-axis-label-text-fill: white;
+                                        </style>
+                                    </NumberAxis>
+                                </yAxis>
+                            </BarChart>
+
+
+                            <Button layoutX="329.0" layoutY="322.0" onAction="#filterProjects" text="Filter" textFill="WHITE" />
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>
